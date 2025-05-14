@@ -12,6 +12,8 @@ export default function CreateEmpleadoModal() {
     puesto: '',
     fecha_ingreso: '',
     correo: '',
+    tiene_vacaciones: false,
+    dias_vacaciones: 0,
   });
 
   const handleChange = e => {
@@ -28,6 +30,8 @@ export default function CreateEmpleadoModal() {
           puesto: '',
           fecha_ingreso: '',
           correo: '',
+          tiene_vacaciones: false,
+          dias_vacaciones: 0,
         });
       },
     });
@@ -50,8 +54,8 @@ export default function CreateEmpleadoModal() {
     onClick={() => setShowModal(false)}
   >
     <div
-      className="bg-white dark:bg-gray-900 rounded-lg shadow-lg w-full max-w-md p-6 relative dark:text-gray-100"
-      onClick={e => e.stopPropagation()} // Evita que el clic cierre el modal
+      className="bg-white dark:bg-[#171717] rounded-lg shadow-lg w-full max-w-md p-6 relative dark:text-gray-100"
+      onClick={e => e.stopPropagation()} 
     >
       {/* Botón cerrar */}
       <button
@@ -72,7 +76,7 @@ export default function CreateEmpleadoModal() {
             value={form.nombre}
             onChange={handleChange}
             required
-            className="w-full border dark:border-gray-600 p-2 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
+            className="w-full border dark:border-gray-900 p-2 rounded bg-white dark:bg-[#232321] text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 dark:focus:ring-gray-900"
           />
         </div>
 
@@ -83,7 +87,7 @@ export default function CreateEmpleadoModal() {
             name="puesto"
             value={form.puesto}
             onChange={handleChange}
-            className="w-full border dark:border-gray-600 p-2 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
+            className="w-full border dark:border-gray-900 p-2 rounded bg-white dark:bg-[#232321] text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 dark:focus:ring-gray-900"
           />
         </div>
 
@@ -94,7 +98,7 @@ export default function CreateEmpleadoModal() {
             name="fecha_ingreso"
             value={form.fecha_ingreso}
             onChange={handleChange}
-            className="w-full border dark:border-gray-600 p-2 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
+            className="w-full border dark:border-gray-900 p-2 rounded bg-white dark:bg-[#232321] text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 dark:focus:ring-gray-900"
           />
         </div>
 
@@ -106,10 +110,31 @@ export default function CreateEmpleadoModal() {
             value={form.correo}
             onChange={handleChange}
             required
-            className="w-full border dark:border-gray-600 p-2 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
+            className="w-full border dark:border-gray-900 p-2 rounded bg-white dark:bg-[#232321] text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 dark:focus:ring-gray-900"
           />
         </div>
-
+        <div className="flex items-center">
+          <input
+            type="checkbox"
+            name="tiene_vacaciones"
+            checked={form.tiene_vacaciones}
+            onChange={e => setForm({ ...form, tiene_vacaciones: e.target.checked })}
+            className="mr-2"
+          />
+          <label className="text-sm font-medium text-gray-700 dark:text-gray-300">¿Tiene vacaciones?</label>
+        </div>
+        {form.tiene_vacaciones && (
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Días de Vacaciones</label>
+            <input
+              type="number"
+              name="dias_vacaciones"
+              value={form.dias_vacaciones}
+              onChange={handleChange}
+              className="w-full border dark:border-gray-900 p-2 rounded bg-white dark:bg-[#232321] text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 dark:focus:ring-gray-900"
+            />
+          </div>
+        )}
 
         <div className='flex items-center justify-end mt-4'>
         <Button

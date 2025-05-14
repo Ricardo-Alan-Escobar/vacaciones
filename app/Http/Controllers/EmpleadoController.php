@@ -10,6 +10,15 @@ use Carbon\Carbon;
 
 class EmpleadoController extends Controller
 {
+    public function index()
+{
+    $empleados = \App\Models\Empleado::all();
+    return inertia('dashboard', [ 
+        'empleados' => $empleados
+    ]);
+}
+
+
     public function store(Request $request)
     {
         $request->validate([
@@ -17,19 +26,14 @@ class EmpleadoController extends Controller
             'puesto' => 'nullable|string|max:255',
             'fecha_ingreso' => 'nullable|date',
             'correo' => 'required|email|unique:users,email',
+            'tiene_vacaciones' => 'nullable|boolean',
+            'dias_vacaciones' => 'nullable|integer|min:0',
         ]);
 
+        // Toma valores directamente del formulario
         $fechaIngreso = $request->fecha_ingreso;
-        $tieneVacaciones = false;
-        $diasVacaciones = 0;
-
-        if ($fechaIngreso) {
-            $fecha = Carbon::parse($fechaIngreso);
-            if ($fecha->diffInYears(now()) >= 1) {
-                $tieneVacaciones = true;
-                $diasVacaciones = 6; // inicial
-            }
-        }
+        $tieneVacaciones = $request->has('tiene_vacaciones') ? $request->tiene_vacaciones : false;
+        $diasVacaciones = $request->dias_vacaciones ?? 0; // Usa el valor del formulario o 0 si no se proporciona
 
         $user = User::create([
             'name' => $request->nombre,
@@ -48,5 +52,35 @@ class EmpleadoController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'Empleado creado correctamente.');
+    }
+    public function update(Request $request, Empleado $empleado)
+    {
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'puesto' => 'nullable|string|max:255',
+            'fecha_ingreso' => 'nullable|date',
+            'correo' => 'required|email|unique:empleados,correo,' . $empleado->id,
+            'tiene_vacaciones' => 'required|boolean',
+            'dias_vacaciones' => 'nullable|integer|min:0',
+        ]);
+
+        $empleado->update([
+            'nombre' => $request->nombre,
+            'puesto' => $request->puesto,
+            'fecha_ingreso' => $request->fecha_ingreso,
+            'correo' => $request->correo,
+            'tiene_vacaciones' => $request->tiene_vacaciones,
+            'dias_vacaciones' => $request->tiene_vacaciones ? $request->dias_vacaciones : 0,
+        ]);
+
+        return redirect()->back()->with('success', 'Empleado actualizado correctamente');
+    }
+
+    // Eliminar empleado
+    public function destroy(Empleado $empleado)
+    {
+        $empleado->delete();
+
+        return redirect()->back()->with('success', 'Empleado eliminado correctamente');
     }
 }
