@@ -1,10 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect  } from 'react';
 import { router } from '@inertiajs/react';
 import { X, Save, Pencil } from 'lucide-react';
 import { Button } from "/resources/js/components/ui/button.jsx";
+import Swal from 'sweetalert2';
 
 export default function EditEmpleadoModal({ empleado, onClose }) {
   const [form, setForm] = useState({ ...empleado });
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  useEffect(() => {
+    const checkDarkMode = () => {
+      setIsDarkMode(document.documentElement.classList.contains('dark'));
+    };
+    
+    // Verificar al cargar
+    checkDarkMode();
+    
+    // Configurar un observador de mutación para detectar cambios en las clases del documento
+    const observer = new MutationObserver(mutations => {
+      mutations.forEach(mutation => {
+        if (mutation.attributeName === 'class') {
+          checkDarkMode();
+        }
+      });
+    });
+    
+    observer.observe(document.documentElement, { attributes: true });
+    
+    return () => observer.disconnect();
+  }, []);
 
   const handleChange = e => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -14,7 +38,34 @@ export default function EditEmpleadoModal({ empleado, onClose }) {
     e.preventDefault();
     router.put(`/empleados/${empleado.id}`, form, {
       onSuccess: () => {
-        onClose(); 
+        onClose();
+        
+        // Mostrar alerta con SweetAlert2 adaptada al tema oscuro/claro
+        Swal.fire({
+          title: '¡Actualizado!',
+          text: `Empleado ${form.nombre} actualizado correctamente`,
+          icon: 'success',
+          confirmButtonText: 'Aceptar',
+          timer: 3000,
+          timerProgressBar: true,
+          background: isDarkMode ? '#1e1e1e' : '#ffffff',
+          color: isDarkMode ? '#e4e4e4' : '#545454',
+          iconColor: isDarkMode ? '#4ade80' : '#2e7d32',
+          confirmButtonColor: isDarkMode ? '#3b82f6' : '#4f46e5',
+          customClass: {
+            popup: isDarkMode ? 'dark-mode-popup' : '',
+            title: isDarkMode ? 'dark-mode-title' : '',
+            htmlContainer: isDarkMode ? 'dark-mode-content' : '',
+            confirmButton: 'swal-confirm-button',
+            timerProgressBar: isDarkMode ? 'dark-mode-timer' : ''
+          },
+          showClass: {
+            popup: 'animate__animated animate__fadeInDown animate__faster'
+          },
+          hideClass: {
+            popup: 'animate__animated animate__fadeOutUp animate__faster'
+          }
+        });
       },
     });
   };
@@ -78,7 +129,7 @@ export default function EditEmpleadoModal({ empleado, onClose }) {
             )}
 
             <div className="flex justify-end">
-              <Button type="submit" size="lg">
+              <Button type="submit" size="lg" className="cursor-pointer">
                 <Save className="mr-2" /> Guardar Cambios
               </Button>
             </div>
