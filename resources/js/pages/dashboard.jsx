@@ -5,7 +5,7 @@ import CreateEmpleado from '../components/CreateEmpleado';
 import EditEmpleadoModal from '../components/editEmpleadoModal';
 import { Button } from "/resources/js/components/ui/button.jsx";
 import { Input } from "/resources/js/components/ui/input.jsx";
-import { Trash, Edit, Search, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Trash, Edit, Search, ChevronLeft, ChevronRight, CircleX    } from 'lucide-react';
 import Swal from 'sweetalert2';
 
 export default function Dashboard({ empleados }) {
@@ -127,9 +127,9 @@ export default function Dashboard({ empleados }) {
                         {searchTerm && (
                             <button
                                 onClick={() => setSearchTerm('')}
-                                className="ml-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                                className="cursor-pointer ml-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
                             >
-                                Limpiar
+                               <CircleX />
                             </button>
                         )}
                     </div>
