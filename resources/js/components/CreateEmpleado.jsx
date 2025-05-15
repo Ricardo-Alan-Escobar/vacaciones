@@ -3,6 +3,7 @@ import { router } from '@inertiajs/react';
 import { X } from 'lucide-react';
 import { Button, buttonVariants } from "/resources/js/components/ui/button.jsx";
 import { Plus, Save } from 'lucide-react';
+import Swal from 'sweetalert2';
 
 export default function CreateEmpleadoModal() {
   const [showModal, setShowModal] = useState(false);
@@ -22,9 +23,41 @@ export default function CreateEmpleadoModal() {
 
   const handleSubmit = e => {
     e.preventDefault();
+    
+    // Detectar modo oscuro del sistema
+    const isDarkMode = document.documentElement.classList.contains('dark');
+    
     router.post('/empleados', form, {
       onSuccess: () => {
         setShowModal(false);
+        
+        // Mostrar alerta con SweetAlert2 adaptada al tema oscuro/claro
+        Swal.fire({
+          title: '¡Éxito!',
+          text: `Empleado ${form.nombre} agregado correctamente`,
+          icon: 'success',
+          confirmButtonText: 'Aceptar',
+          timer: 3000,
+          timerProgressBar: true,
+          background: isDarkMode ? '#171717' : '#ffffff',
+          color: isDarkMode ? '#e4e4e4' : '#545454',
+          iconColor: isDarkMode ? '#4ade80' : '#2e7d32',
+          confirmButtonColor: isDarkMode ? '#3b82f6' : '#4f46e5',
+          customClass: {
+            popup: isDarkMode ? 'dark-mode-popup' : '',
+            title: isDarkMode ? 'dark-mode-title' : '',
+            htmlContainer: isDarkMode ? 'dark-mode-content' : '',
+            confirmButton: 'swal-confirm-button',
+            timerProgressBar: isDarkMode ? 'dark-mode-timer' : ''
+          },
+          showClass: {
+            popup: 'animate__animated animate__fadeInDown animate__faster'
+          },
+          hideClass: {
+            popup: 'animate__animated animate__fadeOutUp animate__faster'
+          }
+        });
+        
         setForm({
           nombre: '',
           puesto: '',

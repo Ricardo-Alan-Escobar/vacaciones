@@ -77,10 +77,12 @@ class EmpleadoController extends Controller
     }
 
     // Eliminar empleado
-    public function destroy(Empleado $empleado)
-    {
-        $empleado->delete();
+  public function destroy(Empleado $empleado)
+{
+    $empleado->user()->delete(); // si tienes la relación definida en el modelo
+    $empleado->delete();
 
-        return redirect()->back()->with('success', 'Empleado eliminado correctamente');
-    }
+    return redirect()->back()->with('success', 'Empleado eliminado correctamente');
+}
+
 }

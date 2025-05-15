@@ -5,21 +5,57 @@ import CreateEmpleado from '../components/CreateEmpleado';
 import EditEmpleadoModal from '../components/editEmpleadoModal';
 import { Button, buttonVariants } from "/resources/js/components/ui/button.jsx";
 import { Trash, Edit } from 'lucide-react';
+import Swal from 'sweetalert2';
 
 export default function Dashboard({ empleados }) {
     const [selectedEmpleado, setSelectedEmpleado] = useState(null);
-    const [showModal, setShowModal] = useState(false); // Estado para controlar la visibilidad del modal
+    const [showModal, setShowModal] = useState(false); 
 
     const handleEdit = (empleado) => {
         setSelectedEmpleado(empleado);
-        setShowModal(true); // Muestra el modal cuando se hace clic en "Editar"
+        setShowModal(true); 
     };
 
-    const handleDelete = (id) => {
-        if (confirm('¿Estás seguro de que deseas eliminar este empleado?')) {
-            router.delete(`/empleados/${id}`);
+  const handleDelete = (id) => {
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: '¡Esta acción no se puede deshacer!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#6b7280', 
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar',
+        background: document.documentElement.classList.contains('dark') ? '#171717' : '#fff', // dark mode
+        color: document.documentElement.classList.contains('dark') ? '#e5e7eb' : '#111827',   // text color
+    }).then((result) => {
+        if (result.isConfirmed) {
+            router.delete(`/empleados/${id}`, {
+                onSuccess: () => {
+                    Swal.fire({
+                        title: '¡Eliminado!',
+                        text: 'El empleado ha sido eliminado.',
+                        icon: 'success',
+                        timer: 2000,
+                        showConfirmButton: false,
+                        background: document.documentElement.classList.contains('dark') ? '#171717' : '#fff',
+                        color: document.documentElement.classList.contains('dark') ? '#e5e7eb' : '#111827',
+                    });
+                },
+                onError: () => {
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Ocurrió un error al eliminar el empleado.',
+                        icon: 'error',
+                        background: document.documentElement.classList.contains('dark') ? '#171717' : '#fff',
+                        color: document.documentElement.classList.contains('dark') ? '#e5e7eb' : '#111827',
+                    });
+                }
+            });
         }
-    };
+    });
+};
+    
 
     return (
         <AppLayout breadcrumbs={[{ title: 'Dashboard', href: '/dashboard' }]}>
@@ -67,7 +103,7 @@ export default function Dashboard({ empleados }) {
                             </thead>
                             <tbody>
                                 {empleados.map((emp, idx) => (
-                                    <tr key={idx} className="border-b hover:bg-gray-50 dark:hover:bg-gray-700">
+                                    <tr key={idx} className="border-b hover:bg-gray-50 dark:hover:bg-[#21211f]">
                                         <td className="px-4 py-2 border">{emp.nombre}</td>
                                         <td className="px-4 py-2 border">{emp.puesto || '-'}</td>
                                         <td className="px-4 py-2 border">{emp.fecha_ingreso}</td>
