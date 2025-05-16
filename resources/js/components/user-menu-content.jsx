@@ -14,20 +14,15 @@ export function UserMenuContent({ user }) {
                     <UserInfo user={user} showEmail={true} />
                 </div>
             </DropdownMenuLabel>
-            <DropdownMenuSeparator />
+           
             <DropdownMenuGroup>
-                <DropdownMenuItem asChild>
-                    <Link className="block w-full cursor-pointer" href={route('profile.edit')} as="button" prefetch onClick={cleanup}>
-                        <Settings className="mr-2" />
-                        Configuración
-                    </Link>
-                </DropdownMenuItem>
+                
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
                 <Link className="block w-full cursor-pointer" method="post" href={route('logout')} as="button" onClick={cleanup}>
                     <LogOut className="mr-2" />
-                    Salir
+                    Cerrar sesión
                 </Link>
             </DropdownMenuItem>
         </>

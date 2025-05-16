@@ -17,6 +17,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/empleados/{empleado}', [EmpleadoController::class, 'destroy'])->name('empleados.destroy');
 });
 
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('vacaciones', function () {
+        return Inertia::render('vacaciones');
+    })->name('vacaciones');
+});
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
