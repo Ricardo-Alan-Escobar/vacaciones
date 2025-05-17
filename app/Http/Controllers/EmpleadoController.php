@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class EmpleadoController extends Controller
 {
@@ -84,5 +85,6 @@ class EmpleadoController extends Controller
 
     return redirect()->back()->with('success', 'Empleado eliminado correctamente');
 }
+
 
 }
