@@ -23,6 +23,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Vista de vacaciones (usa el controlador correcto)
     Route::get('/vacaciones', [VacacionesController::class, 'index'])->name('vacaciones');
+    Route::post('/vacaciones', [VacacionesController::class, 'store'])->name('vacaciones.store');
+
+
+    // API para obtener datos de vacaciones por ID de usuario
+    Route::get('/api/empleados/{userId}/vacaciones', [VacacionesController::class, 'getVacationData']);
+
+
+     Route::put('/solicitudes/{vacacion}/estado', [VacacionesController::class, 'updateEstado'])
+        ->name('admin.solicitudes.updateEstado');
 
     // API para obtener datos de vacaciones por ID de usuario
     Route::get('/api/empleados/{userId}/vacaciones', [VacacionesController::class, 'getVacationData']);

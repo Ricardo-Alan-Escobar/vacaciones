@@ -8,14 +8,23 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Vacacion;
 
 class EmpleadoController extends Controller
 {
     public function index()
 {
-    $empleados = \App\Models\Empleado::all();
+   $empleados = Empleado::all();
+    $vacaciones = Vacacion::with('empleado.user')->get();
+
+    $userId = Auth::id();
+    $empleado = Empleado::where('user_id', $userId)->first();
+    $diasDisponibles = $empleado?->dias_vacaciones ?? 0;
+
     return inertia('dashboard', [ 
-        'empleados' => $empleados
+        'empleados' => $empleados,
+        'vacaciones' => $vacaciones,
+        'diasDisponibles' => $diasDisponibles,
     ]);
 }
 

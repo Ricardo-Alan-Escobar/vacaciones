@@ -7,8 +7,9 @@ import { Button } from "/resources/js/components/ui/button.jsx";
 import { Input } from "/resources/js/components/ui/input.jsx";
 import { Trash, Edit, Search, ChevronLeft, ChevronRight, CircleX    } from 'lucide-react';
 import Swal from 'sweetalert2';
+import SolicitudesGlobales from '../components/SolicitudesGlobales';
 
-export default function Dashboard({ empleados }) {
+export default function Dashboard({ empleados, vacaciones }) {
     const [selectedEmpleado, setSelectedEmpleado] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
@@ -269,6 +270,8 @@ export default function Dashboard({ empleados }) {
                         )}
                     </div>
                 </div>
+                {/* Solicitudes globales */}
+                 <SolicitudesGlobales vacaciones={vacaciones} />
             </div>
 
             {/* Modal de edición */}
