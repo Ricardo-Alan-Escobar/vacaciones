@@ -24,9 +24,10 @@ export default function Vacaciones() {
     const [currentPage, setCurrentPage] = useState(1);
     const rowsPerPage = 5;
 
-    const filteredVacaciones = vacaciones.filter(v =>
-        v.motivo?.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+   const filteredVacaciones = [...vacaciones]
+    .reverse()
+    .filter(v => v.motivo?.toLowerCase().includes(searchTerm.toLowerCase()));
+
 
     const totalPages = Math.ceil(filteredVacaciones.length / rowsPerPage);
     const paginatedVacaciones = filteredVacaciones.slice(
@@ -61,7 +62,7 @@ export default function Vacaciones() {
                         />
                     </div>
 
-                    {/* 🔍 Barra buscadora */}
+      
                     <div className="p-4 flex items-center">
                         <div className="relative flex-1 max-w-md">
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -89,7 +90,6 @@ export default function Vacaciones() {
                     </div>
 
                     <div className="p-4">
-                        <h2 className="text-2xl font-semibold mb-4">Historial de Solicitudes</h2>
                         <div className="overflow-x-auto rounded-lg shadow">
                             <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                                 <thead className="bg-gray-100 dark:bg-[#222]">
@@ -103,12 +103,26 @@ export default function Vacaciones() {
                                 </thead>
                                 <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                                     {paginatedVacaciones.map((v, index) => (
-                                        <tr key={index}>
-                                            <td className="px-4 py-2">{v.motivo}</td>
-                                            <td className="px-4 py-2">{v.fecha_inicio}</td>
-                                            <td className="px-4 py-2">{v.fecha_fin}</td>
-                                            <td className="px-4 py-2">{v.dias}</td>
-                                            <td className="px-4 py-2 capitalize">{v.estado}</td>
+                                        <tr key={index} className='hover:bg-gray-50 dark:hover:bg-[#21211f]'>
+                                            <td className="px-4 py-2 border-r">{v.motivo}</td>
+                                            <td className="px-4 py-2 border-r">{v.fecha_inicio}</td>
+                                            <td className="px-4 py-2 border-r">{v.fecha_fin}</td>
+                                            <td className="px-4 py-2 border-r">{v.dias}</td>
+                                           <td className="px-4 py-2">
+                                          <span
+                                            className={`inline-flex items-center justify-center px-2 py-1 text-xs font-medium rounded-full ${
+                                              v.estado === 'pendiente'
+                                                ? 'bg-blue-100 text-blue-500 dark:bg-blue-900 dark:text-blue-200'
+                                                : v.estado === 'aprobado'
+                                                ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100'
+                                                : v.estado === 'rechazado'
+                                                ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+                                                : 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200'
+                                            }`}
+                                          >
+                                            {v.estado}
+                                          </span>
+                                        </td>
                                         </tr>
                                     ))}
                                     {filteredVacaciones.length === 0 && (

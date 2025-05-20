@@ -10,12 +10,12 @@ export default function SolicitudesGlobales({ vacaciones }) {
   const [searchTerm, setSearchTerm] = useState('');
   const rowsPerPage = 5;
 
-  const filteredData = vacaciones.filter((v) => {
-    const nombre = v.empleado?.user?.name?.toLowerCase() || '';
-    const correo = v.empleado?.user?.email?.toLowerCase() || '';
-    const term = searchTerm.toLowerCase();
-    return nombre.includes(term) || correo.includes(term);
-  });
+  const filteredData = vacaciones.slice().reverse().filter((v) => {
+  const nombre = v.empleado?.user?.name?.toLowerCase() || '';
+  const correo = v.empleado?.user?.email?.toLowerCase() || '';
+  const term = searchTerm.toLowerCase();
+  return nombre.includes(term) || correo.includes(term);
+});
 
   const totalPages = Math.ceil(filteredData.length / rowsPerPage);
   const paginatedData = filteredData.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
