@@ -20,20 +20,20 @@ export default function Dashboard({ empleados, vacaciones }) {
     const rowsPerPage = 8;
     const totalPages = Math.ceil(filteredEmpleados.length / rowsPerPage);
     
-    // Obtener los empleados para la página actual
+    
     const getCurrentEmpleados = () => {
         const indexOfLastRow = currentPage * rowsPerPage;
         const indexOfFirstRow = indexOfLastRow - rowsPerPage;
         return filteredEmpleados.slice(indexOfFirstRow, indexOfLastRow);
     };
 
-    // Actualiza la lista filtrada cuando cambia el término de búsqueda
+    
     useEffect(() => {
         const results = empleados.filter(empleado =>
             empleado.nombre.toLowerCase().includes(searchTerm.toLowerCase())
         );
         setFilteredEmpleados(results);
-        setCurrentPage(1); // Volver a la primera página cuando se realiza una búsqueda
+        setCurrentPage(1); 
     }, [searchTerm, empleados]);
 
     const handleEdit = (empleado) => {
@@ -187,7 +187,9 @@ export default function Dashboard({ empleados, vacaciones }) {
                         </table>
                         
                         {/* Controles de paginación */}
-                        {filteredEmpleados.length > 0 && (
+                       
+                    </div>
+                     {filteredEmpleados.length > 0 && (
                             <div className="flex items-center justify-between border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-[#171717] px-4 py-3 sm:px-6 mt-4 rounded-b-lg">
                                 <div className="flex flex-1 justify-between sm:hidden">
                                     <Button
@@ -268,7 +270,6 @@ export default function Dashboard({ empleados, vacaciones }) {
                                 </div>
                             </div>
                         )}
-                    </div>
                 </div>
                 {/* Solicitudes globales */}
                  <SolicitudesGlobales vacaciones={vacaciones} />
