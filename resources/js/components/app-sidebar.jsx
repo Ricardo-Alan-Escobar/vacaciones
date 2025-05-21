@@ -5,6 +5,7 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, Sid
 import { Link } from '@inertiajs/react';
 import { BookOpen, Settings , LayoutGrid, TreePalm  } from 'lucide-react';
 import AppLogo from './app-logo';
+import { usePage } from '@inertiajs/react';
 
 const mainNavItems = [
     {
@@ -34,13 +35,25 @@ const footerNavItems = [
 ];
 
 export function AppSidebar() {
+    const { auth } = usePage().props;
+    const userRol = auth?.user?.rol;
+
+    const filteredMainNavItems = mainNavItems.filter(item => {
+        if (item.title === 'Dashboard' && userRol !== 'admin') {
+            return false;
+        }
+         if (item.title === 'Vacaciones' && userRol === 'admin') {
+        return false;
+    }
+        return true;
+    });
     return (
         <Sidebar collapsible="icon" variant="inset">
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
-                            <Link href="/dashboard" prefetch>
+                            <Link href={userRol === 'admin' ? '/dashboard' : '/vacaciones'} prefetch>
                                 <AppLogo />
                             </Link>
                         </SidebarMenuButton>
@@ -49,7 +62,8 @@ export function AppSidebar() {
             </SidebarHeader>
 
             <SidebarContent>
-                <NavMain items={mainNavItems} />
+                <NavMain items={filteredMainNavItems} />
+
             </SidebarContent>
 
             <SidebarFooter>

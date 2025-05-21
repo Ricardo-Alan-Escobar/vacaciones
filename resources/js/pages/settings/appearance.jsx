@@ -2,7 +2,7 @@ import { Head } from '@inertiajs/react';
 
 import AppearanceTabs from '@/components/appearance-tabs';
 import HeadingSmall from '@/components/heading-small';
-
+import { Alert, AlertTitle, AlertDescription } from '../../components/ui/alert';
 import AppLayout from '@/layouts/app-layout';
 import SettingsLayout from '@/layouts/settings/layout';
 
@@ -21,6 +21,14 @@ export default function Appearance() {
             <SettingsLayout>
                 <div className="space-y-6">
                     <HeadingSmall title="Configuración de Apariencia" description="Actualiza la configuración de apariencia de tu cuenta" />
+
+                   <Alert variant="default" className="mb-4">
+                    <AlertTitle>¡Advertencia!</AlertTitle>
+                     <AlertDescription>
+                     El tema claro tiene deficiencias de accesibilidad. Si tienes problemas de visión, te recomendamos usar el tema oscuro.
+                     </AlertDescription>
+                </Alert>
+            
                     <AppearanceTabs />
                 </div>
             </SettingsLayout>
