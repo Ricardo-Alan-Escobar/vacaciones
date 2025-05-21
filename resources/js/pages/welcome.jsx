@@ -39,31 +39,45 @@ export default function Welcome() {
                 </div>
                 
                 {/* Navegación */}
-                <nav className="flex items-center gap-6">
-                    {auth.user ? (
-                        <Link
-                            href={route('dashboard')}
-                            className="rounded-lg bg-blue-600 hover:bg-blue-700 px-5 py-2 text-sm text-white font-medium transition-colors duration-200"
-                        >
-                            Panel de Control
-                        </Link>
-                    ) : (
-                        <div className="flex gap-4">
-                            <Link
-                                href={route('login')}
-                                className="rounded-lg border border-gray-300 dark:border-gray-700 px-5 py-2 text-sm font-medium hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
-                            >
-                                Iniciar Sesión
-                            </Link>
-                            <Link
-                                href={route('login')}
-                                className="rounded-lg bg-blue-600 hover:bg-blue-700 px-5 py-2 text-sm text-white font-medium transition-colors duration-200"
-                            >
-                                Administrador
-                            </Link>
-                        </div>
-                    )}
+               <nav className="flex items-center gap-6">
+                  {auth.user ? (
+                    <>
+                      <Link
+                        href={
+                          auth.user.rol === 'admin'
+                            ? route('dashboard')
+                            : route('vacaciones')
+                        }
+                        className="rounded-lg bg-blue-600 hover:bg-blue-700 px-5 py-2 text-sm text-white font-medium transition-colors duration-200"
+                      >
+                        Panel de Control
+                      </Link>
+                    
+                      <Link
+                        href="/settings/profile"
+                        className="rounded-lg border border-gray-300 dark:border-gray-700 px-5 py-2 text-sm font-medium hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
+                      >
+                        Perfil
+                      </Link>
+                    </>
+                  ) : (
+                    <div className="flex gap-4">
+                      <Link
+                        href={route('login')}
+                        className="rounded-lg border border-gray-300 dark:border-gray-700 px-5 py-2 text-sm font-medium hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
+                      >
+                        Iniciar Sesión
+                      </Link>
+                      <Link
+                        href={route('login')}
+                        className="rounded-lg bg-blue-600 hover:bg-blue-700 px-5 py-2 text-sm text-white font-medium transition-colors duration-200"
+                      >
+                        Administrador
+                      </Link>
+                    </div>
+                  )}
                 </nav>
+
             </header>
 
             {/* Hero Section */}
@@ -83,18 +97,24 @@ export default function Welcome() {
                         
                         {/* CTA Buttons */}
                         <div className="flex flex-col sm:flex-row gap-4 mt-4">
-                            <Link
-                                href={auth.user ? route('dashboard') : route('login')}
-                                className="rounded-lg bg-blue-600 hover:bg-blue-700 px-8 py-3 text-white font-medium transition-colors duration-200"
+                           <Link
+                              href={
+                                auth.user
+                                  ? auth.user.role === 'admin'
+                                    ? route('dashboard')        
+                                    : route('vacaciones')       
+                                  : route('login')              
+                              }
+                              className="rounded-lg bg-blue-600 hover:bg-blue-700 px-8 py-3 text-white font-medium transition-colors duration-200"
                             >
-                                {auth.user ? 'Ir al Panel' : 'Ingresar ahora'}
+                              {auth.user ? 'Ir al Panel' : 'Ingresar ahora'}
                             </Link>
-                            <Link
-                                href="#features"
+                            <a
+                                href="https://api.whatsapp.com/send?phone=5214445583374"
                                 className="rounded-lg border border-gray-300 dark:border-gray-700 px-8 py-3 font-medium hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
                             >
                                 Contactar a sistemas
-                            </Link>
+                            </a>
                         </div>
                     </div>
 
@@ -157,6 +177,7 @@ export default function Welcome() {
                 <footer className="w-full bg-white dark:bg-gray-800 py-8 border-t border-gray-200 dark:border-gray-700">
                     <div className="max-w-7xl mx-auto px-6 text-center text-gray-500 dark:text-gray-400">
                         <p>© {new Date().getFullYear()} Sistema de Gestión de Vacaciones. Todos los derechos reservados.</p>
+                        <p className='flex justify-center items-center'>Creado por:  <a href="https://nexsite.com.mx/"><img src="https://nexsite.com.mx/_astro/Logo.CRLWEMTz_Z1AphX9.webp" className='w-20 pl-2' alt="Nexsite" /></a></p>
                     </div>
                 </footer>
             </div>
