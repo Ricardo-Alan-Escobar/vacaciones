@@ -38,17 +38,19 @@ class EmpleadoController extends Controller
             'correo' => 'required|email|unique:users,email',
             'tiene_vacaciones' => 'nullable|boolean',
             'dias_vacaciones' => 'nullable|integer|min:0',
+            'rol' => 'required|string|in:empleado,admin',
         ]);
 
         // Toma valores directamente del formulario
         $fechaIngreso = $request->fecha_ingreso;
         $tieneVacaciones = $request->has('tiene_vacaciones') ? $request->tiene_vacaciones : false;
-        $diasVacaciones = $request->dias_vacaciones ?? 0; // Usa el valor del formulario o 0 si no se proporciona
+        $diasVacaciones = $request->dias_vacaciones ?? 0;
 
         $user = User::create([
             'name' => $request->nombre,
             'email' => $request->correo,
-            'password' => Hash::make('Maquirsa217'), // puedes personalizar esto
+            'password' => Hash::make('Maquirsa217'), 
+            'rol' => 'empleado',
         ]);
 
         Empleado::create([
@@ -89,7 +91,7 @@ class EmpleadoController extends Controller
     // Eliminar empleado
   public function destroy(Empleado $empleado)
 {
-    $empleado->user()->delete(); // si tienes la relación definida en el modelo
+    $empleado->user()->delete(); 
     $empleado->delete();
 
     return redirect()->back()->with('success', 'Empleado eliminado correctamente');
