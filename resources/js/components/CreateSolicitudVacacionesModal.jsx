@@ -71,13 +71,25 @@ export default function CreateSolicitudVacacionesModal({ empleadoId, diasDisponi
     return;
   }
 
-  // Si todo está bien, continúa con el envío
-  router.post('/vacaciones', form, {
-    onSuccess: () => {
-      setShowModal(false);
-      // ...
-    },
-  });
+ router.post('/vacaciones', form, {
+  onSuccess: () => {
+    setShowModal(false);
+
+    const isDark = document.documentElement.classList.contains('dark');
+
+    Swal.fire({
+      title: '¡Solicitud enviada!',
+      text: 'Tu solicitud de vacaciones ha sido registrada con éxito.',
+      icon: 'success',
+      confirmButtonText: 'Aceptar',
+      timer: 3000,
+      background: isDark ? '#171717' : '#fff', 
+      color: isDark ? '#f3f4f6' : '#111827',   // texto claro u oscuro
+      iconColor: isDark ? '#10b981' : '#16a34a', // verde para éxito
+    });
+  },
+});
+
 };
 
 

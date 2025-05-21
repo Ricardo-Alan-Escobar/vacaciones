@@ -8,6 +8,7 @@ import { Input } from "/resources/js/components/ui/input.jsx";
 import { Trash, Edit, Search, ChevronLeft, ChevronRight, CircleX    } from 'lucide-react';
 import Swal from 'sweetalert2';
 import SolicitudesGlobales from '../components/SolicitudesGlobales';
+import CalendarioMexico from '../components/CalendarioMexico';
 
 export default function Dashboard({ empleados, vacaciones }) {
     const [selectedEmpleado, setSelectedEmpleado] = useState(null);
@@ -273,6 +274,11 @@ export default function Dashboard({ empleados, vacaciones }) {
                 </div>
                 {/* Solicitudes globales */}
                  <SolicitudesGlobales vacaciones={vacaciones} />
+
+                  <div className="bg-white dark:bg-[#171717] p-6 rounded-xl shadow-md flex justify-center items-center">
+                                    <h2 className="text-xl font-semibold text-gray-700 dark:text-gray-300">Aqui puedes ver los días festivos</h2>
+                                </div>
+                                <CalendarioMexico />
             </div>
 
             {/* Modal de edición */}
@@ -282,6 +288,7 @@ export default function Dashboard({ empleados, vacaciones }) {
                     onClose={() => setShowModal(false)}
                 />
             )}
+           
         </AppLayout>
     );
 }

@@ -5,6 +5,7 @@ import { Input } from "/resources/js/components/ui/input.jsx";
 import { Plus, ChevronLeft, ChevronRight, Search, CircleX } from 'lucide-react';
 import { useState } from 'react';
 import CreateSolicitudVacacionesModal from '../components/CreateSolicitudVacacionesModal.jsx';
+import CalendarioMexico from '../components/CalendarioMexico.jsx';
 
 const breadcrumbs = [
     {
@@ -215,6 +216,11 @@ export default function Vacaciones() {
                         )}
                     </div>
                 </div>
+                <div className="bg-white dark:bg-[#171717] p-6 rounded-xl shadow-md flex justify-center items-center">
+                        <h2 className="text-xl font-semibold text-gray-700 dark:text-gray-300">Aqui puedes ver los días festivos</h2>
+                    </div>
+                    <CalendarioMexico />
+
             </div>
         </AppLayout>
     );
