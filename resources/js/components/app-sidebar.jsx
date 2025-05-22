@@ -3,7 +3,7 @@ import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { Link } from '@inertiajs/react';
-import { BookOpen, Settings , LayoutGrid, TreePalm  } from 'lucide-react';
+import { BookOpen, Settings , LayoutGrid, TreePalm, Bell  } from 'lucide-react';
 import AppLogo from './app-logo';
 import { usePage } from '@inertiajs/react';
 
@@ -17,6 +17,11 @@ const mainNavItems = [
         title: 'Vacaciones',
         url: '/vacaciones',
         icon: TreePalm ,
+    },
+    {
+        title: 'Notificaciones',
+        url: '/notificaciones',
+        icon: Bell ,
     },
     {
         title: 'Configuración',

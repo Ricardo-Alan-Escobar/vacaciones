@@ -15,6 +15,7 @@ export default function CreateEmpleadoModal() {
     correo: '',
     tiene_vacaciones: false,
     dias_vacaciones: 0,
+     rol: 'empleado',
   });
 
   const handleChange = e => {

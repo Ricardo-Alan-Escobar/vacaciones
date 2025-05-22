@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\EmpleadoController;
 use App\Http\Controllers\VacacionesController;
+use App\Http\Controllers\NotificacionController;
 
 // Ruta pública
 Route::get('/', function () {
@@ -36,6 +37,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // API para obtener datos de vacaciones por ID de usuario
     Route::get('/api/empleados/{userId}/vacaciones', [VacacionesController::class, 'getVacationData']);
+
+
+
+    // ruta para la vista de notificaciones
+    Route::get('/notificaciones', [NotificacionController::class, 'index'])->name('notificaciones');
+    Route::post('/notificaciones/{id}/leer', [NotificacionController::class, 'marcarComoLeida']);
+Route::delete('/notificaciones/{id}', [NotificacionController::class, 'eliminar']);
 });
 
 require __DIR__.'/settings.php';
