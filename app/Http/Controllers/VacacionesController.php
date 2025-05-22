@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Vacacion;
 use Illuminate\Support\Facades\Validator;
+use App\Models\User;
+use App\Notifications\NuevaSolicitudVacaciones;
+use App\Notifications\SolicitudAprobada;
+use App\Notifications\SolicitudRechazada;
 
 
 class VacacionesController extends Controller
@@ -52,6 +56,12 @@ public function store(Request $request)
         'estado'       => 'pendiente',
     ]);
 
+     $empleado = Empleado::find($validated['empleado_id']);
+    $admins = User::where('rol', 'admin')->get();
+
+    foreach ($admins as $admin) {
+        $admin->notify(new NuevaSolicitudVacaciones($empleado));
+    }
     return redirect()->back()->with('success', 'Solicitud de vacaciones registrada.');
 }
 public function allRequests()
@@ -62,6 +72,7 @@ public function allRequests()
         'vacaciones' => $vacaciones,
     ]);
 }
+
 public function updateEstado(Request $request, Vacacion $vacacion)
 {
     $request->validate([
@@ -90,6 +101,15 @@ public function updateEstado(Request $request, Vacacion $vacacion)
     $vacacion->update([
         'estado' => $request->estado,
     ]);
+
+    $empleado = Empleado::find($vacacion->empleado_id);
+$user = $empleado->user;
+
+if ($request->estado === 'aprobado') {
+    $user->notify(new SolicitudAprobada());
+} elseif ($request->estado === 'rechazado') {
+    $user->notify(new SolicitudRechazada());
+}
 
     return redirect()->back()->with('message', 'Solicitud actualizada correctamente.');
 }

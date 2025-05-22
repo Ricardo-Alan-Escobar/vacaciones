@@ -9,17 +9,49 @@ use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Vacacion;
+use App\Notifications\EmpleadoCumpleAnio;
+use Illuminate\Support\Facades\DB;
+use App\Notifications\PerfilEditado;
+
 
 class EmpleadoController extends Controller
 {
-    public function index()
+   public function index()
 {
-   $empleados = Empleado::all();
+    $empleados = Empleado::all();
     $vacaciones = Vacacion::with('empleado.user')->get();
 
     $userId = Auth::id();
     $empleado = Empleado::where('user_id', $userId)->first();
     $diasDisponibles = $empleado?->dias_vacaciones ?? 0;
+
+    $hoy = \Carbon\Carbon::today();
+
+    foreach ($empleados as $emp) {
+        if (!$emp->fecha_ingreso) continue;
+
+        $fechaIngreso = \Carbon\Carbon::parse($emp->fecha_ingreso);
+        $aniversario = $fechaIngreso->copy()->addYear();
+
+        if ($hoy->isSameDay($aniversario)) {
+            $admin = User::where('rol', 'admin')->first();
+
+            if ($admin) {
+                // Evitar notificaciones duplicadas
+                $yaNotificado = DB::table('notifications')
+                    ->where('notifiable_id', $admin->id)
+                    ->where('notifiable_type', get_class($admin))
+                    ->where('type', \App\Notifications\EmpleadoCumpleAnio::class)
+                    ->whereJsonContains('data->empleado_id', $emp->id)
+                    ->whereDate('created_at', $hoy)
+                    ->exists();
+
+                if (!$yaNotificado) {
+                    $admin->notify(new EmpleadoCumpleAnio($emp));
+                }
+            }
+        }
+    }
 
     return inertia('dashboard', [ 
         'empleados' => $empleados,
@@ -27,6 +59,7 @@ class EmpleadoController extends Controller
         'diasDisponibles' => $diasDisponibles,
     ]);
 }
+
 
 
     public function store(Request $request)
@@ -84,6 +117,10 @@ class EmpleadoController extends Controller
             'tiene_vacaciones' => $request->tiene_vacaciones,
             'dias_vacaciones' => $request->tiene_vacaciones ? $request->dias_vacaciones : 0,
         ]);
+
+        if ($empleado->user) {
+                $empleado->user->notify(new PerfilEditado());
+            }
 
         return redirect()->back()->with('success', 'Empleado actualizado correctamente');
     }
