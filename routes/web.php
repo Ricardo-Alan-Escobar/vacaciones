@@ -21,6 +21,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/empleados', [EmpleadoController::class, 'store'])->name('empleados.store');
         Route::put('/empleados/{empleado}', [EmpleadoController::class, 'update'])->name('empleados.update');
         Route::delete('/empleados/{empleado}', [EmpleadoController::class, 'destroy'])->name('empleados.destroy');
+        Route::get('/empleados', [EmpleadoController::class, 'index']);
+
     });
 
     // Vista de vacaciones (usa el controlador correcto)
