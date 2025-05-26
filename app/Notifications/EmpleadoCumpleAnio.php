@@ -28,8 +28,8 @@ class EmpleadoCumpleAnio extends Notification
 
         return [
             'mensaje' => "El empleado {$this->empleado->nombre} cumplirá un año más el " . $fecha->format('d/m/Y') . ". Asegúrate de actualizar sus días de vacaciones.",
-            'empleado_id' => $this->empleado->id, // útil para evitar duplicados
-            'url' => '/empleados',
+            'empleado_id' => $this->empleado->id, 
+            'url' => '/dashboard',
         ];
     }
 }

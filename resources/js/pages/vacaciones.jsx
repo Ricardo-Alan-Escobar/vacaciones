@@ -29,7 +29,7 @@ export default function Vacaciones() {
     .reverse()
     .filter(v => v.motivo?.toLowerCase().includes(searchTerm.toLowerCase()));
 
-
+ 
     const totalPages = Math.ceil(filteredVacaciones.length / rowsPerPage);
     const paginatedVacaciones = filteredVacaciones.slice(
         (currentPage - 1) * rowsPerPage,

@@ -11,8 +11,8 @@ use App\Models\User;
 use App\Notifications\NuevaSolicitudVacaciones;
 use App\Notifications\SolicitudAprobada;
 use App\Notifications\SolicitudRechazada;
-
-
+ 
+ 
 class VacacionesController extends Controller
 {
     public function index()

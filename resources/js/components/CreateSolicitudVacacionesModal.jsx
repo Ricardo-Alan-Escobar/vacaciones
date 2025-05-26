@@ -19,16 +19,29 @@ export default function CreateSolicitudVacacionesModal({ empleadoId, diasDisponi
   const { name, value } = e.target;
   const updatedForm = { ...form, [name]: value };
 
-  if (name === 'fecha_inicio' || name === 'fecha_fin') {
-    const start = new Date(updatedForm.fecha_inicio);
-    const end = new Date(updatedForm.fecha_fin);
+ if (name === 'fecha_inicio' || name === 'fecha_fin') {
+  const start = new Date(updatedForm.fecha_inicio);
+  const end = new Date(updatedForm.fecha_fin);
 
-    if (!isNaN(start) && !isNaN(end)) {
-      const diffTime = end - start;
-      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1; 
-      updatedForm.dias = diffDays > 0 ? diffDays : 0;
+  if (!isNaN(start) && !isNaN(end)) {
+    let count = 0;
+    const current = new Date(start);
+    current.setHours(12, 0, 0, 0); // Establecer a medio día para evitar errores por horario
+
+    while (current <= end) {
+      const day = current.getDay();
+      if (day !== 0) { // 0 es domingo
+        count++;
+      }
+      current.setDate(current.getDate() + 1);
     }
+
+    updatedForm.dias = count;
+  } else {
+    updatedForm.dias = 0;
   }
+}
+
 
   setForm(updatedForm);
 };
@@ -91,7 +104,7 @@ export default function CreateSolicitudVacacionesModal({ empleadoId, diasDisponi
 });
 
 };
-
+ 
 
   return (
     <>
