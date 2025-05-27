@@ -12,7 +12,7 @@ Route::get('/', function () {
 })->name('home');
 
 // Rutas protegidas por autenticación y verificación
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () { 
 
     Route::middleware(['admin'])->group(function () {
         Route::get('/dashboard', [EmpleadoController::class, 'index'])->name('dashboard');

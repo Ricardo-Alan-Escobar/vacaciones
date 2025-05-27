@@ -14,7 +14,7 @@ export default function CreateSolicitudVacacionesModal({ empleadoId, diasDisponi
     fecha_fin: '',
     dias: 0,
   });
-
+ 
   const handleChange = e => {
   const { name, value } = e.target;
   const updatedForm = { ...form, [name]: value };

@@ -6,6 +6,7 @@ import { Plus, ChevronLeft, ChevronRight, Search, CircleX } from 'lucide-react';
 import { useState } from 'react';
 import CreateSolicitudVacacionesModal from '../components/CreateSolicitudVacacionesModal.jsx';
 import CalendarioMexico from '../components/CalendarioMexico.jsx';
+import jsPDF from 'jspdf';
 
 const breadcrumbs = [
     {
@@ -36,6 +37,194 @@ export default function Vacaciones() {
         currentPage * rowsPerPage
     );
 
+
+
+
+function generarPDF(solicitud, nombreEmpleado) {
+    const doc = new jsPDF();
+    
+    // Configuración general
+    const margenIzquierdo = 20;
+    const margenDerecho = 160;
+    const margenSuperior = 20;
+    let y = margenSuperior;
+
+    // Título
+    doc.setFontSize(18);
+    doc.setFont("helvetica", "bold");
+    doc.text("Solicitud de Vacaciones", margenIzquierdo, y);
+    y += 15;
+
+    // Fecha de creación
+   doc.setFontSize(10);
+    doc.setFont("helvetica", "bold");
+    const fechaCreacionFormateada = formatearFecha(solicitud.created_at);
+    doc.text(`Creado el: ${fechaCreacionFormateada}`, margenDerecho - 20, y);
+    y += 10;
+
+    // Empresa
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "normal");
+    doc.text("Empresa: ________________________", margenIzquierdo, y);
+    y += 15;
+
+    // Datos del encabezado
+    doc.setFontSize(12);
+    
+    // Línea "De:" con nombre en negrita
+    doc.setFont("helvetica", "normal");
+    doc.text("De: ", margenIzquierdo, y);
+    doc.setFont("helvetica", "bold");
+    doc.text(nombreEmpleado, margenIzquierdo + doc.getTextWidth("De: "), y);
+    y += 7;
+    
+    // Línea "Asunto:" con motivo en negrita
+    doc.setFont("helvetica", "normal");
+    doc.text("Asunto: ", margenIzquierdo, y);
+    doc.setFont("helvetica", "bold");
+    doc.text(solicitud.motivo, margenIzquierdo + doc.getTextWidth("Asunto: "), y);
+    y += 15;
+
+    // Cuerpo del texto con formato
+    doc.setFont("helvetica", "normal");
+    
+    // Primera línea del párrafo
+    let x = margenIzquierdo;
+    doc.text("Por la presente, y para que quede constancia por escrito, solicito de la manera más", x, y);
+    y += 7;
+    doc.text("atenta un permiso a cuenta de vacaciones el día ", x, y);
+    
+    // Fecha de inicio en negrita (formato día-mes-año)
+    x = margenIzquierdo + doc.getTextWidth("atenta un permiso a cuenta de vacaciones el día ");
+    doc.setFont("helvetica", "bold");
+    doc.text(formatearFecha(solicitud.fecha_inicio), x, y);
+    
+    // Continuar con texto normal
+    x += doc.getTextWidth(formatearFecha(solicitud.fecha_inicio));
+    doc.setFont("helvetica", "normal");
+    doc.text(" al ", x, y);
+    
+    // Fecha fin en negrita (formato día-mes-año)
+    x += doc.getTextWidth(" al ");
+    doc.setFont("helvetica", "bold");
+    doc.text(formatearFecha(solicitud.fecha_fin), x, y);
+    
+    // Continuar con el resto del texto
+    x += doc.getTextWidth(formatearFecha(solicitud.fecha_fin));
+    doc.setFont("helvetica", "normal");
+    doc.text(",", x, y);
+    
+    y += 7;
+    x = margenIzquierdo;
+    doc.text("debiendo regresar a mi lugar de trabajo el día ", x, y);
+    
+    // Fecha de regreso en negrita (formato día-mes-año)
+    x = margenIzquierdo + doc.getTextWidth("debiendo regresar a mi lugar de trabajo el día ");
+    doc.setFont("helvetica", "bold");
+    doc.text(formatearFecha(sumarUnDia(solicitud.fecha_fin)), x, y);
+    doc.setFont("helvetica", "normal");
+    doc.text(".", x + doc.getTextWidth(formatearFecha(sumarUnDia(solicitud.fecha_fin))), y);
+    
+    y += 15;
+    
+
+  
+     x = margenIzquierdo;
+    doc.setFont("helvetica", "normal");
+    doc.text("Cabe mencionar que con este permiso estaré tomando ", x, y);
+    x += doc.getTextWidth("Cabe mencionar que con este permiso estaré tomando ");
+    
+    doc.setFont("helvetica", "bold");
+    doc.text(`${solicitud.dias}`, x, y);
+    x += doc.getTextWidth(`${solicitud.dias}`);
+    
+    doc.setFont("helvetica", "normal");
+    doc.text(" días de vacaciones,", x, y);
+    
+    // Salto de línea
+    y += 7;
+    x = margenIzquierdo;
+    
+    // Línea 2: continuación del texto
+    doc.setFont("helvetica", "normal");
+    doc.text("quedando aún ", x, y);
+    x += doc.getTextWidth("quedando aún ");
+    
+    doc.setFont("helvetica", "bold");
+    const diasRestantes = diasDisponibles - solicitud.dias;
+    doc.text(`${diasRestantes}`, x, y);
+    x += doc.getTextWidth(`${diasRestantes}`);
+    
+    doc.setFont("helvetica", "normal");
+    doc.text(" disponibles en mi saldo anual.", x, y);
+    y += 15;
+
+
+    
+    // Resto del párrafo
+    const restoTexto = `Esperando que no haya problema alguno por parte de la Dirección de la empresa, quedo a la espera de su visto bueno
+
+Sin otro particular, reciba un cordial saludo.`;
+
+    const lineasResto = doc.splitTextToSize(restoTexto, 170);
+    doc.text(lineasResto, margenIzquierdo, y);
+    y += lineasResto.length * 7 + 15;
+
+    // Firma
+    doc.text("Atentamente,", margenIzquierdo, y);
+    y += 7;
+    doc.setFont("helvetica", "bold");
+    doc.text(nombreEmpleado, margenIzquierdo, y);
+    y += 30;
+
+    // Espacios para firmas
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(10);
+    
+    // Firma del empleado (lado izquierdo)
+    doc.text(nombreEmpleado, margenIzquierdo+7, y);
+    doc.text("_____________________________", margenIzquierdo, y + 7);
+    
+    // Nombre y firma del jefe directo (lado derecho)
+    doc.text("Nombre y firma del jefe directo:", margenDerecho-25, y);
+    doc.text("_____________________________", margenDerecho-28, y + 7);
+    y += 25;
+    
+    // Autorización de RHH (centrada)
+    const textoRHH = "Autorización de RRHH:";
+    const lineaRHH = "_____________________________";
+    const anchoTextoRHH = doc.getTextWidth(textoRHH);
+    const anchoLineaRHH = doc.getTextWidth(lineaRHH);
+    const centroX = (doc.internal.pageSize.width / 2);
+    
+    doc.text(textoRHH, centroX - (anchoTextoRHH / 2), y);
+    doc.text(lineaRHH, centroX - (anchoLineaRHH / 2), y + 7);
+
+    // Guardar PDF
+    doc.save(`Solicitud_Vacaciones_${nombreEmpleado}_${solicitud.id}.pdf`);
+}
+
+// Función para formatear fecha a formato día-mes-año
+function formatearFecha(fecha) {
+    const date = new Date(fecha);
+    const meses = [
+        'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+        'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+    ];
+    
+    const dia = date.getDate();
+    const mes = meses[date.getMonth()];
+    const año = date.getFullYear();
+    
+    return `${dia}-${mes}-${año}`;
+}
+
+// Utilidad para sumar un día a una fecha (en formato YYYY-MM-DD)
+function sumarUnDia(fecha) {
+    const date = new Date(fecha);
+    date.setDate(date.getDate() + 1);
+    return date.toISOString().split('T')[0];
+}
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Vacaciones" />
@@ -100,16 +289,17 @@ export default function Vacaciones() {
                                         <th className="px-4 py-2 text-left">Fecha Fin</th>
                                         <th className="px-4 py-2 text-left">Días</th>
                                         <th className="px-4 py-2 text-left">Estado</th>
+                                        <th className="px-4 py-2 text-left">PDF</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                                    {paginatedVacaciones.map((v, index) => (
+                                     {paginatedVacaciones.map((v, index) => (
                                         <tr key={index} className='hover:bg-gray-50 dark:hover:bg-[#21211f]'>
                                             <td className="px-4 py-2 border-r">{v.motivo}</td>
                                             <td className="px-4 py-2 border-r">{v.fecha_inicio}</td>
                                             <td className="px-4 py-2 border-r">{v.fecha_fin}</td>
                                             <td className="px-4 py-2 border-r">{v.dias}</td>
-                                           <td className="px-4 py-2">
+                                           <td className="px-4 py-2 border-r">
                                           <span
                                             className={`inline-flex items-center justify-center px-2 py-1 text-xs font-medium rounded-full ${
                                               v.estado === 'pendiente'
@@ -124,6 +314,15 @@ export default function Vacaciones() {
                                             {v.estado}
                                           </span>
                                         </td>
+                                        <td className="px-4 py-2">
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                           onClick={() => generarPDF(v, empleado?.nombre, diasDisponibles)}
+                                        >
+                                            Descargar PDF
+                                        </Button>
+                                    </td>
                                         </tr>
                                     ))}
                                     {filteredVacaciones.length === 0 && (
