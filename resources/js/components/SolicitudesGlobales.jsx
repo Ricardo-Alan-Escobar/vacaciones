@@ -140,7 +140,7 @@ export default function SolicitudesGlobales({ vacaciones }) {
                       <>
                         <Button
                           onClick={() => actualizarEstado(v.id, 'aprobado', v.empleado?.user?.name)}
-                          className="bg-green-600 text-white hover:bg-green-800"
+                          className="bg-green-600 cursor-pointer text-white hover:bg-green-800"
                         >
                           <CircleCheckBig className="mr-1" /> Aprobar
                         </Button>
