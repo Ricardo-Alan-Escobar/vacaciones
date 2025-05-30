@@ -114,6 +114,7 @@ export default function SolicitudesGlobales({ vacaciones }) {
               <th className="px-4 py-2">Fecha Inicio</th>
               <th className="px-4 py-2">Fecha Fin</th>
               <th className="px-4 py-2">Días</th>
+              <th className="px-4 py-2">Observaciones</th>
               <th className="px-4 py-2">Estado</th>
               <th className="px-4 py-2">Acciones</th>
             </tr>
@@ -134,7 +135,22 @@ export default function SolicitudesGlobales({ vacaciones }) {
                   <td className="px-4 py-2 border">{v.fecha_inicio}</td>
                   <td className="px-4 py-2 border">{v.fecha_fin}</td>
                   <td className="px-4 py-2 border">{v.dias}</td>
-                  <td className="px-4 py-2 border capitalize">{v.estado}</td>
+                   <td className="px-4 py-2 border">{v.observaciones}</td>
+                   <td className="px-4 py-2 border">
+                                          <span
+                                            className={`inline-flex items-center justify-center px-2 py-1 text-xs font-medium rounded-full ${
+                                              v.estado === 'pendiente'
+                                                ? 'bg-blue-100 text-blue-500 dark:bg-blue-900 dark:text-blue-200'
+                                                : v.estado === 'aprobado'
+                                                ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100'
+                                                : v.estado === 'rechazado'
+                                                ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+                                                : 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200'
+                                            }`}
+                                          >
+                                            {v.estado}
+                                          </span>
+                                        </td>
                   <td className="px-4 py-2 border space-x-2">
                     {v.estado === 'pendiente' ? (
                       <>
