@@ -38,13 +38,14 @@ class VacacionesController extends Controller
 }
 public function store(Request $request)
 {
-    // Validar datos
+    
     $validated = $request->validate([
         'empleado_id'   => 'required|exists:empleados,id',
         'motivo'        => 'required|string|max:255',
         'fecha_inicio'  => 'required|date',
         'fecha_fin'     => 'required|date|after_or_equal:fecha_inicio',
         'dias'          => 'required|integer|min:1',
+        'observaciones' => 'nullable|string|max:1000',
     ]);
   
     Vacacion::create([
@@ -54,6 +55,7 @@ public function store(Request $request)
         'fecha_fin'    => $validated['fecha_fin'],
         'dias'         => $validated['dias'],
         'estado'       => 'pendiente',
+        'observaciones' => $validated['observaciones'] ?? null, 
     ]);
 
      $empleado = Empleado::find($validated['empleado_id']);

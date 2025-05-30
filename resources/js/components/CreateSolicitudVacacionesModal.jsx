@@ -13,6 +13,7 @@ export default function CreateSolicitudVacacionesModal({ empleadoId, diasDisponi
     fecha_inicio: '',
     fecha_fin: '',
     dias: 0,
+    observaciones: '',
   });
  
   const handleChange = e => {
@@ -176,7 +177,7 @@ export default function CreateSolicitudVacacionesModal({ empleadoId, diasDisponi
                   type="date"
                   name="fecha_fin"
                   value={form.fecha_fin}
-                  min={form.fecha_inicio} // Aquí se establece el mínimo
+                  min={form.fecha_inicio} 
                   onChange={handleChange}
                   required
                   className="w-full border dark:border-gray-900 p-2 rounded bg-white dark:bg-[#232321] text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 dark:focus:ring-gray-900"
@@ -195,6 +196,18 @@ export default function CreateSolicitudVacacionesModal({ empleadoId, diasDisponi
                   className="w-full border dark:border-gray-900 p-2 rounded bg-white dark:bg-[#232321] text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 dark:focus:ring-gray-900"
                 />
 
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  Observaciones
+                </label>
+                <textarea
+                  name="observaciones"
+                  value={form.observaciones}
+                  placeholder='Ej. Vacaciones trabajadas, motivo personal, etc.'
+                  onChange={handleChange}
+                  className="w-full border dark:border-gray-900 p-2 rounded bg-white dark:bg-[#232321] text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 dark:focus:ring-gray-900"
+                />
               </div>
 
               <div className="flex items-center justify-end mt-4">

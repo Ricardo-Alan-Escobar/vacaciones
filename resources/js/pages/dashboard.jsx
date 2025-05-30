@@ -96,7 +96,7 @@ export default function Dashboard({ empleados, vacaciones }) {
 
                     <div className="bg-white dark:bg-[#171717] p-6 rounded-xl shadow-md flex flex-col items-center">
                         <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4">Con Vacaciones</h2>
-                        <p className="text-4xl font-bold text-green-600 dark:text-green-400">{empleados.filter(e => e.tiene_vacaciones).length}</p>
+                        <p className="text-4xl font-bold text-green-600 dark:text-green-400">{empleados.filter(e => e.tiene_vacaciones && e.dias_vacaciones > 0).length}</p>
                     </div>
 
                     <div className="bg-white dark:bg-[#171717] p-6 rounded-xl shadow-md flex flex-col items-center">

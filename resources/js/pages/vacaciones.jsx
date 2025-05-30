@@ -118,7 +118,7 @@ function generarPDF(solicitud, nombreEmpleado) {
     x = margenIzquierdo;
     doc.text("debiendo regresar a mi lugar de trabajo el día ", x, y);
     
-    // Fecha de regreso en negrita (formato día-mes-año)
+   
     x = margenIzquierdo + doc.getTextWidth("debiendo regresar a mi lugar de trabajo el día ");
     doc.setFont("helvetica", "bold");
     doc.text(formatearFecha(sumarUnDia(solicitud.fecha_fin)), x, y);
@@ -289,6 +289,7 @@ function sumarUnDia(fecha) {
                                         <th className="px-4 py-2 text-left">Fecha Fin</th>
                                         <th className="px-4 py-2 text-left">Días</th>
                                         <th className="px-4 py-2 text-left">Estado</th>
+                                        <th className="px-4 py-2 text-left">Observaciones</th>
                                         <th className="px-4 py-2 text-left">PDF</th>
                                     </tr>
                                 </thead>
@@ -314,6 +315,7 @@ function sumarUnDia(fecha) {
                                             {v.estado}
                                           </span>
                                         </td>
+                                        <td className="px-4 py-2 border-r">{v.observaciones}</td>
                                         <td className="px-4 py-2">
                                         <Button
                                             variant="outline"
