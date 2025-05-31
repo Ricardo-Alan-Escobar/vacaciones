@@ -169,6 +169,18 @@ Sin otro particular, reciba un cordial saludo.`;
     const lineasResto = doc.splitTextToSize(restoTexto, 170);
     doc.text(lineasResto, margenIzquierdo, y);
     y += lineasResto.length * 7 + 15;
+    
+if (solicitud.observaciones && solicitud.observaciones.trim() !== "") {
+    doc.setFont("helvetica", "bold");
+    doc.text("Observaciones:", margenIzquierdo, y);
+    y += 7;
+
+    doc.setFont("helvetica", "normal");
+    const observacionesTexto = doc.splitTextToSize(solicitud.observaciones, 170);
+    doc.text(observacionesTexto, margenIzquierdo, y);
+    y += observacionesTexto.length * 7 + 10;
+}
+
 
     // Firma
     doc.text("Atentamente,", margenIzquierdo, y);
