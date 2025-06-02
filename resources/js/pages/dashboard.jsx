@@ -9,6 +9,7 @@ import { Trash, Edit, Search, ChevronLeft, ChevronRight, CircleX    } from 'luci
 import Swal from 'sweetalert2';
 import SolicitudesGlobales from '../components/SolicitudesGlobales';
 import CalendarioMexico from '../components/CalendarioMexico';
+import Excel from '../components/Excel.jsx';
 
 export default function Dashboard({ empleados, vacaciones }) {
     const [selectedEmpleado, setSelectedEmpleado] = useState(null);
@@ -113,7 +114,7 @@ export default function Dashboard({ empleados, vacaciones }) {
                     </div>
 
                     {/* Barra de búsqueda */}
-                    <div className="p-4 flex items-center">
+                    <div className="p-4 flex items-center justify-between">
                         <div className="relative flex-1 max-w-md">
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <Search className="h-5 w-5 text-gray-400" />
@@ -134,6 +135,8 @@ export default function Dashboard({ empleados, vacaciones }) {
                                <CircleX />
                             </button>
                         )}
+
+                        <Excel data={filteredEmpleados} />
                     </div>
 
                     <div className="overflow-x-auto p-4">
@@ -274,6 +277,7 @@ export default function Dashboard({ empleados, vacaciones }) {
                 </div>
                 {/* Solicitudes globales */}
                  <SolicitudesGlobales vacaciones={vacaciones} />
+                 
 
                   <div className="bg-white dark:bg-[#171717] p-6 rounded-xl shadow-md flex justify-center items-center">
                                     <h2 className="text-xl font-semibold text-gray-700 dark:text-gray-300">Aqui puedes ver los días festivos</h2>

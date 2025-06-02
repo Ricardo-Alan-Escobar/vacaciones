@@ -4,6 +4,11 @@ import { Button } from "/resources/js/components/ui/button.jsx";
 import { Input } from "/resources/js/components/ui/input.jsx";
 import { CircleCheckBig, CircleX, ChevronLeft, ChevronRight, Search } from 'lucide-react';
 import Swal from 'sweetalert2';
+import SolicitudesExcel from './SolicitudesExcel.jsx';
+import {
+  BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer,
+} from 'recharts';
+
 
 export default function SolicitudesGlobales({ vacaciones }) {
   const [currentPage, setCurrentPage] = useState(1);
@@ -70,6 +75,28 @@ export default function SolicitudesGlobales({ vacaciones }) {
       }
     });
   };
+const estadoCounts = vacaciones.reduce((acc, v) => {
+  acc[v.estado] = (acc[v.estado] || 0) + 1;
+  return acc;
+}, {});
+
+const estadoData = Object.keys(estadoCounts).map((estado) => ({
+  name: estado,
+  value: estadoCounts[estado],
+}));
+
+const diasPorEmpleado = vacaciones.reduce((acc, v) => {
+  const nombre = v.empleado?.user?.name || 'Desconocido';
+  acc[nombre] = (acc[nombre] || 0) + v.dias;
+  return acc;
+}, {});
+
+const diasData = Object.entries(diasPorEmpleado).map(([name, value]) => ({
+  name,
+  value,
+}));
+
+const COLORS = ['#10B981', '#3B82F6', '#EF4444', '#F59E0B', '#6366F1'];
 
   return (
     <div className="border relative min-h-[100vh] flex-1 overflow-hidden rounded-xl md:min-h-min">
@@ -77,8 +104,11 @@ export default function SolicitudesGlobales({ vacaciones }) {
         <h1 className="text-3xl font-bold p-5 pl-6">Solicitudes</h1>
       </div>
 
+
+
+
       {/* BARRA BUSCADORA */}
-      <div className="p-4 flex items-center">
+      <div className="p-4 flex items-center justify-between">
         <div className="relative flex-1 max-w-md">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <Search className="h-5 w-5 text-gray-400" />
@@ -102,6 +132,8 @@ export default function SolicitudesGlobales({ vacaciones }) {
                                <CircleX />
                             </button>
                         )}
+                     <SolicitudesExcel data={paginatedData} />
+   
       </div>
 
       <div className='overflow-x-auto p-4'>
@@ -253,6 +285,9 @@ export default function SolicitudesGlobales({ vacaciones }) {
             </nav>
           </div>
         </div>
+
+       
+        
       </div>
 
       {/* Estilos para SweetAlert en modo oscuro */}
@@ -276,6 +311,51 @@ export default function SolicitudesGlobales({ vacaciones }) {
           border-color: #3d3d3d !important;
         }
       `}</style>
+
+
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4 m-4">
+  {/* Gráfico de pastel: Días solicitados por empleado */}
+  <div className="bg-white dark:bg-[#1f1f1f] p-4 rounded-xl shadow-md">
+    <h2 className="text-lg font-semibold mb-2 text-gray-800 dark:text-white">Días solicitados por empleado</h2>
+    <ResponsiveContainer width="100%" height={300}>
+      <PieChart>
+        <Pie
+          data={diasData}
+          dataKey="value"
+          nameKey="name"
+          cx="50%"
+          cy="50%"
+          outerRadius={100}
+          label
+        >
+          {diasData.map((entry, index) => (
+            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+          ))}
+        </Pie>
+        <Tooltip />
+        <Legend />
+      </PieChart>
+    </ResponsiveContainer>
+  </div>
+
+  {/* Gráfico de barras: Solicitudes por estado */}
+  <div className="bg-white dark:bg-[#1f1f1f] p-4 rounded-xl shadow-md">
+    <h2 className="text-lg font-semibold mb-2 text-gray-800 dark:text-white">Solicitudes por estado</h2>
+    <ResponsiveContainer width="100%" height={300}>
+      <BarChart data={estadoData}>
+        <XAxis dataKey="name" stroke="#8884d8" />
+        <YAxis />
+        <Tooltip />
+        <Legend />
+        <Bar dataKey="value" fill="#3B82F6" />
+      </BarChart>
+    </ResponsiveContainer>
+  </div>
+</div>
+
+      
     </div>
+
+    
   );
 }
