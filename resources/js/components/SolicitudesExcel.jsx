@@ -34,4 +34,4 @@ export default function ExportSolicitudesExcel({ data }) {
             <Download className="h-4 w-4 mr-2" /> Descargar Excel
         </Button>
     );
-}
+} 

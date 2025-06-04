@@ -136,7 +136,7 @@ export default function Dashboard({ empleados, vacaciones }) {
                             </button>
                         )}
 
-                        <Excel data={filteredEmpleados} />
+                        <Excel data={empleados} />
                     </div>
 
                     <div className="overflow-x-auto p-4">
@@ -262,7 +262,7 @@ export default function Dashboard({ empleados, vacaciones }) {
                                             })}
                                             <Button
                                                 onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                                                disabled={currentPage === totalPages}
+                                                 disabled={currentPage === totalPages}
                                                 variant="outline"
                                                 size="icon"
                                                 className="rounded-r-md"

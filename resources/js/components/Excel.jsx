@@ -2,7 +2,7 @@ import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
-
+ 
 export default function ExportToExcel({ data }) {
     const handleExport = () => {
         const exportData = data.map(emp => ({
