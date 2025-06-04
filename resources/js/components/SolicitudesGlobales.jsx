@@ -131,8 +131,8 @@ const COLORS = ['#10B981', '#3B82F6', '#EF4444', '#F59E0B', '#6366F1'];
                             >
                                <CircleX />
                             </button>
-                        )}
-                     <SolicitudesExcel data={paginatedData} />
+                        )} 
+                     <SolicitudesExcel data={filteredData} />
    
       </div>
 

@@ -149,7 +149,7 @@ export default function CalendarioMexico() {
   return (
     <div className="flex flex-col md:flex-row w-full h-full  rounded-xl text-gray-200">
       {/* Estilos globales para las barras de desplazamiento */}
-      <style jsx global>{`
+      <style >{`
         /* Estilo de la barra de scroll */
         ::-webkit-scrollbar {
           width: 8px;
@@ -171,12 +171,12 @@ export default function CalendarioMexico() {
         
         /* Estilo hover del thumb */
         ::-webkit-scrollbar-thumb:hover {
-          background: #9f7aea;
+          background: #464646;
         }
         
         /* Estilo para cuando está activo (clic) */
         ::-webkit-scrollbar-thumb:active {
-          background: #805ad5;
+          background: #464646;
         }
         
         /* Estilo para la esquina donde se encuentran las barras horizontales y verticales */
