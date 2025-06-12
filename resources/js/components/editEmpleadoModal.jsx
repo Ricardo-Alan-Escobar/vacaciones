@@ -88,7 +88,7 @@ export default function EditEmpleadoModal({ empleado, onClose }) {
             <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100">Editar Empleado</h2>
 
             {/* Reutilizando campos */}
-            {['nombre', 'puesto', 'fecha_ingreso', 'correo'].map(field => (
+            {['nombre', 'puesto', 'fecha_ingreso', 'correo', 'jefe', 'empresa'].map(field => (
               <div key={field}>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                   {field.replace('_', ' ').toUpperCase()}

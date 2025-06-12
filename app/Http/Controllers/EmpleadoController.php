@@ -71,6 +71,8 @@ class EmpleadoController extends Controller
             'correo' => 'required|email|unique:users,email',
             'tiene_vacaciones' => 'nullable|boolean',
             'dias_vacaciones' => 'nullable|integer|min:0',
+            'empresa' => 'nullable|string|max:255',
+            'jefe' => 'nullable|string|max:255',
             'rol' => 'required|string|in:empleado,admin',
         ]);
 
@@ -93,6 +95,8 @@ class EmpleadoController extends Controller
             'correo' => $request->correo,
             'tiene_vacaciones' => $tieneVacaciones,
             'dias_vacaciones' => $diasVacaciones,
+            'empresa' => $request->empresa,
+            'jefe' => $request->jefe,
             'user_id' => $user->id,
         ]);
 
@@ -107,6 +111,8 @@ class EmpleadoController extends Controller
             'correo' => 'required|email|unique:empleados,correo,' . $empleado->id,
             'tiene_vacaciones' => 'required|boolean',
             'dias_vacaciones' => 'nullable|integer|min:0',
+            'empresa' => 'nullable|string|max:255',
+            'jefe' => 'nullable|string|max:255',
         ]);
 
         $empleado->update([
@@ -116,6 +122,8 @@ class EmpleadoController extends Controller
             'correo' => $request->correo,
             'tiene_vacaciones' => $request->tiene_vacaciones,
             'dias_vacaciones' => $request->tiene_vacaciones ? $request->dias_vacaciones : 0,
+            'empresa' => $request->empresa,
+            'jefe' => $request->jefe,
         ]);
 
         if ($empleado->user) {

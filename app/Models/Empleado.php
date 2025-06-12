@@ -8,7 +8,7 @@ class Empleado extends Model
 {
     protected $fillable = [
         'nombre', 'puesto', 'fecha_ingreso', 'correo',
-        'tiene_vacaciones', 'dias_vacaciones', 'user_id',
+        'tiene_vacaciones', 'dias_vacaciones', 'user_id', 'jefe', 'empresa'
     ];
 
     public function user()

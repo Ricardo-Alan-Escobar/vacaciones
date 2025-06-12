@@ -15,7 +15,9 @@ export default function CreateEmpleadoModal() {
     correo: '',
     tiene_vacaciones: false,
     dias_vacaciones: 0,
-     rol: 'empleado',
+    rol: 'empleado',
+    jefe: '',
+    empresa: '',
   });
 
   const handleChange = e => {
@@ -66,6 +68,8 @@ export default function CreateEmpleadoModal() {
           correo: '',
           tiene_vacaciones: false,
           dias_vacaciones: 0,
+          jefe: '',
+          empresa: '',
         });
       },
     });
@@ -147,6 +151,31 @@ export default function CreateEmpleadoModal() {
             className="w-full border dark:border-gray-900 p-2 rounded bg-white dark:bg-[#232321] text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 dark:focus:ring-gray-900"
           />
         </div>
+
+      <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Jefe</label>
+          <input
+            type="text"
+            name="jefe"
+            value={form.jefe}
+            onChange={handleChange}
+            required
+            className="w-full border dark:border-gray-900 p-2 rounded bg-white dark:bg-[#232321] text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 dark:focus:ring-gray-900"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Empresa</label>
+          <input
+            type="text"
+            name="empresa"
+            value={form.empresa}
+            onChange={handleChange}
+            required
+            className="w-full border dark:border-gray-900 p-2 rounded bg-white dark:bg-[#232321] text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 dark:focus:ring-gray-900"
+          />
+        </div>
+
         <div className="flex items-center">
           <input
             type="checkbox"
