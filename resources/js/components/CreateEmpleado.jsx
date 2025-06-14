@@ -85,7 +85,7 @@ export default function CreateEmpleadoModal() {
        > 
        <Plus/> Agregar Empleado
         </Button>
-      {/* Modal */}
+      
       {showModal && (
   <div
     className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 dark:bg-black/70"

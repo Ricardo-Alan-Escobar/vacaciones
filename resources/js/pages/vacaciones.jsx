@@ -40,7 +40,7 @@ export default function Vacaciones() {
 
 
 
-function generarPDF(solicitud, nombreEmpleado) {
+function generarPDF(solicitud, nombreEmpleado, nombreJefe) {
     const doc = new jsPDF();
     
     // Configuración general
@@ -332,10 +332,11 @@ function sumarUnDia(fecha) {
                                         <Button
                                             variant="outline"
                                             size="sm"
-                                           onClick={() => generarPDF(v, empleado?.nombre, diasDisponibles)}
+                                            onClick={() => generarPDF(v, empleado?.nombre, diasDisponibles, empleado?.jefe)}
                                         >
                                             Descargar PDF
                                         </Button>
+
                                     </td>
                                         </tr>
                                     ))}
