@@ -55,7 +55,6 @@ function generarPDF(solicitud, nombreEmpleado, nombreJefe) {
     doc.text("Solicitud de Vacaciones", margenIzquierdo, y);
     y += 15;
 
-    // Fecha de creación
    doc.setFontSize(10);
     doc.setFont("helvetica", "bold");
     const fechaCreacionFormateada = formatearFecha(solicitud.created_at);
