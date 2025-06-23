@@ -29,7 +29,7 @@ const rightNavItems = [
         icon: Folder,
     },
     {
-        title: 'Documentation',
+        title: 'Con tegnologia de nexsite',
         url: 'https://laravel.com/docs/starter-kits',
         icon: BookOpen,
     },

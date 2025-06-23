@@ -334,6 +334,7 @@ y += 25;
                                         <td className="px-4 py-2 border-r">{v.observaciones}</td>
                                         <td className="px-4 py-2">
                                         <Button
+                                        className="cursor-pointer"
                                             variant="outline"
                                             size="sm"
                                             onClick={() => generarPDF(v, empleado?.nombre)}

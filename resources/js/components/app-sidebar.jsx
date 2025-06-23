@@ -33,8 +33,8 @@ const mainNavItems = [
 const footerNavItems = [
   
     {
-        title: 'Documentation',
-        url: 'https://laravel.com/docs/starter-kits',
+        title: 'Portafolio',
+        url: 'https://nexsite.com.mx/',
         icon: BookOpen,
     },
 ];
