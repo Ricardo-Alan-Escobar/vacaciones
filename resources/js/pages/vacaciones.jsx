@@ -37,17 +37,17 @@ export default function Vacaciones() {
         currentPage * rowsPerPage
     );
 
-    // Función actualizada para generar PDF - removí nombreJefe como parámetro
+   
     function generarPDF(solicitud, nombreEmpleado) {
         const doc = new jsPDF();
         
-        // Configuración general
+       
         const margenIzquierdo = 20;
         const margenDerecho = 160;
         const margenSuperior = 20;
         let y = margenSuperior;
 
-        // Título
+      
         doc.setFontSize(18);
         doc.setFont("helvetica", "bold");
         doc.text("Solicitud de Vacaciones", margenIzquierdo, y);
@@ -59,7 +59,7 @@ export default function Vacaciones() {
         doc.text(`Creado el: ${fechaCreacionFormateada}`, margenDerecho - 20, y);
         y += 10;
 
-        // Empresa - usar el campo de la base de datos
+       
         doc.setFontSize(12);
         doc.setFont("helvetica", "normal");
         doc.text("Empresa: ", margenIzquierdo, y);
@@ -67,48 +67,47 @@ export default function Vacaciones() {
         doc.text(empleado?.empresa || "________________________", margenIzquierdo + doc.getTextWidth("Empresa: "), y);
         y += 15;
 
-        // Datos del encabezado
+      
         doc.setFontSize(12);
         
-        // Línea "De:" con nombre en negrita
+    
         doc.setFont("helvetica", "normal");
         doc.text("De: ", margenIzquierdo, y);
         doc.setFont("helvetica", "bold");
         doc.text(nombreEmpleado, margenIzquierdo + doc.getTextWidth("De: "), y);
         y += 7;
         
-        // Línea "Asunto:" con motivo en negrita
+       
         doc.setFont("helvetica", "normal");
         doc.text("Asunto: ", margenIzquierdo, y);
         doc.setFont("helvetica", "bold");
         doc.text(solicitud.motivo, margenIzquierdo + doc.getTextWidth("Asunto: "), y);
         y += 15;
 
-        // Cuerpo del texto con formato
+      
         doc.setFont("helvetica", "normal");
-        
-        // Primera línea del párrafo
+         // Primera línea del párrafo
         let x = margenIzquierdo;
         doc.text("Por la presente, y para que quede constancia por escrito, solicito de la manera más", x, y);
         y += 7;
         doc.text("atenta un permiso a cuenta de vacaciones el día ", x, y);
         
-        // Fecha de inicio en negrita (formato día-mes-año)
+        
         x = margenIzquierdo + doc.getTextWidth("atenta un permiso a cuenta de vacaciones el día ");
         doc.setFont("helvetica", "bold");
         doc.text(formatearFecha(solicitud.fecha_inicio), x, y);
         
-        // Continuar con texto normal
+        
         x += doc.getTextWidth(formatearFecha(solicitud.fecha_inicio));
         doc.setFont("helvetica", "normal");
         doc.text(" al ", x, y);
         
-        // Fecha fin en negrita (formato día-mes-año)
+        
         x += doc.getTextWidth(" al ");
         doc.setFont("helvetica", "bold");
         doc.text(formatearFecha(solicitud.fecha_fin), x, y);
         
-        // Continuar con el resto del texto
+        
         x += doc.getTextWidth(formatearFecha(solicitud.fecha_fin));
         doc.setFont("helvetica", "normal");
         doc.text(",", x, y);
@@ -138,11 +137,11 @@ export default function Vacaciones() {
         doc.setFont("helvetica", "normal");
         doc.text(" días de vacaciones,", x, y);
         
-        // Salto de línea
+        
         y += 7;
         x = margenIzquierdo;
         
-        // Línea 2: continuación del texto
+       
         doc.setFont("helvetica", "normal");
         doc.text("quedando aún ", x, y);
         x += doc.getTextWidth("quedando aún ");
@@ -156,7 +155,7 @@ export default function Vacaciones() {
         doc.text(" disponibles en mi saldo anual.", x, y);
         y += 15;
         
-        // Resto del párrafo
+       
         const restoTexto = `Esperando que no haya problema alguno por parte de la Dirección de la empresa, quedo a la espera de su visto bueno
 
 Sin otro particular, reciba un cordial saludo.`;
@@ -176,37 +175,36 @@ Sin otro particular, reciba un cordial saludo.`;
             y += observacionesTexto.length * 7 + 10;
         }
 
-        // Firma
+       
         doc.text("Atentamente,", margenIzquierdo, y);
         y += 7;
         doc.setFont("helvetica", "bold");
         doc.text(nombreEmpleado, margenIzquierdo, y);
         y += 30;
 
-        // Espacios para firmas
+        
         doc.setFont("helvetica", "bold");
         doc.setFontSize(10);
         
-        // Firma del empleado (lado izquierdo)
+        
         doc.text(nombreEmpleado, margenIzquierdo+7, y);
         doc.text("_____________________________", margenIzquierdo, y + 7);
         
-        // Nombre y firma del jefe directo (lado derecho) - usar el campo de la base de datos
+       
        const nombreJefeDirecto = empleado?.jefe || "Nombre y firma del jefe directo:";
 
-// Cambiar a fuente normal (sin negritas) solo para "Jefe directo:"
+
 doc.setFont("helvetica", "normal");
 doc.text("Jefe directo", margenDerecho-25, y);
 
-// Volver a negritas para el resto del contenido
 doc.setFont("helvetica", "bold");
 y += 4; // Espaciado entre "Jefe directo:" y el nombre
 
-// Agregar el nombre del jefe (en negritas)
+
 doc.text(nombreJefeDirecto, margenDerecho-25, y);
 doc.text("_____________________________", margenDerecho-28, y + 7);
 y += 25;
-        // Autorización de RHH (centrada)
+       
         const textoRHH = "Autorización de RRHH:";
         const lineaRHH = "_____________________________";
         const anchoTextoRHH = doc.getTextWidth(textoRHH);
@@ -220,7 +218,7 @@ y += 25;
         doc.save(`Solicitud_Vacaciones_${nombreEmpleado}_${solicitud.id}.pdf`);
     }
 
-    // Función para formatear fecha a formato día-mes-año
+    
     function formatearFecha(fecha) {
         const date = new Date(fecha);
         const meses = [
@@ -235,7 +233,7 @@ y += 25;
         return `${dia}-${mes}-${año}`;
     }
 
-    // Utilidad para sumar un día a una fecha (en formato YYYY-MM-DD)
+  
     function sumarUnDia(fecha) {
         const date = new Date(fecha);
         date.setDate(date.getDate() + 1);

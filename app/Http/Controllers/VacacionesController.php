@@ -93,7 +93,7 @@ public function updateEstado(Request $request, Vacacion $vacacion)
             }
         }
 
-        // Si se cambia de aprobado a rechazado, devolver los días
+     
         if ($vacacion->estado === 'aprobado' && $request->estado === 'rechazado') {
             $empleado->dias_vacaciones += $vacacion->dias;
             $empleado->save();
