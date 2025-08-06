@@ -81,12 +81,12 @@ public function updateEstado(Request $request, Vacacion $vacacion)
         'estado' => 'required|in:pendiente,aprobado,rechazado',
     ]);
 
-    // Si el estado está cambiando
+  
     if ($vacacion->estado !== $request->estado) {
         $empleado = Empleado::find($vacacion->empleado_id);
 
         if ($request->estado === 'aprobado') {
-            // Solo descontar si no se ha aprobado antes
+           
             if ($vacacion->estado !== 'aprobado') {
                 $empleado->dias_vacaciones -= $vacacion->dias;
                 $empleado->save();

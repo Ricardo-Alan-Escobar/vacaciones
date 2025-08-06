@@ -76,7 +76,7 @@ class EmpleadoController extends Controller
             'rol' => 'required|string|in:empleado,admin',
         ]);
 
-        // Toma valores directamente del formulario
+        
         $fechaIngreso = $request->fecha_ingreso;
         $tieneVacaciones = $request->has('tiene_vacaciones') ? $request->tiene_vacaciones : false;
         $diasVacaciones = $request->dias_vacaciones ?? 0;
@@ -133,7 +133,7 @@ class EmpleadoController extends Controller
         return redirect()->back()->with('success', 'Empleado actualizado correctamente');
     }
 
-    // Eliminar empleado
+
   public function destroy(Empleado $empleado)
 {
     $empleado->user()->delete(); 
