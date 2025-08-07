@@ -22,7 +22,7 @@ class NotificacionController extends Controller
         $notificacion = Auth::user()->notifications()->findOrFail($id);
         $notificacion->markAsRead();
 
-        return back(); // o usar return response()->json(['success' => true]);
+        return back(); 
     }
 
     public function eliminar($id)
@@ -30,6 +30,6 @@ class NotificacionController extends Controller
         $notificacion = Auth::user()->notifications()->findOrFail($id);
         $notificacion->delete();
 
-        return back(); // o usar return response()->json(['success' => true]);
+        return back(); 
     }
 }
