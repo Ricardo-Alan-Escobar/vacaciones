@@ -86,7 +86,7 @@ export default function Vacaciones() {
 
       
         doc.setFont("helvetica", "normal");
-         // Primera línea del párrafo
+       
         let x = margenIzquierdo;
         doc.text("Por la presente, y para que quede constancia por escrito, solicito de la manera más", x, y);
         y += 7;
