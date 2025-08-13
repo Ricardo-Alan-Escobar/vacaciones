@@ -21,7 +21,6 @@ export default function Vacaciones() {
     const [showModal, setShowModal] = useState(false);
     const diasDisponibles = empleado?.dias_vacaciones || 0;
     const diasUsados = empleado?.dias_usados || 0;
-
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const rowsPerPage = 5;

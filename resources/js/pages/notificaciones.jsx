@@ -153,10 +153,20 @@ export default function Notificaciones({ notificaciones }) {
                                         <div className="flex items-start justify-between">
                                             <div className="flex-1">
                                                 <div className="flex items-center space-x-2 mb-3">
-                                                    <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                                                   <span className="text-sm font-bold text-blue-600 dark:text-green-400">
-                                                     {noti.read_at ? 'Notificación leída' : 'Nueva notificación'}
-                                                </span>
+                                                   <div
+                                                      className={`w-3 h-3 rounded-full ${
+                                                        noti.read_at
+                                                          ? 'bg-gray-400' 
+                                                          : 'bg-green-500 animate-pulse' 
+                                                      }`}
+                                                    ></div>
+                                                  <span
+                                                      className={`text-sm font-bold ${
+                                                        noti.read_at ? 'text-gray-500 dark:text-gray-400' : 'text-blue-600 dark:text-green-400'
+                                                      }`}
+                                                    >
+                                                      {noti.read_at ? 'Notificación leída' : 'Nueva notificación'}
+                                                    </span>
                                                 </div>
                                                 
                                                 <p className="text-gray-900 dark:text-white text-lg leading-relaxed mb-4">
