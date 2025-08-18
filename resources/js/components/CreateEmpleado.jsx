@@ -27,14 +27,14 @@ export default function CreateEmpleadoModal() {
   const handleSubmit = e => {
     e.preventDefault();
     
-    // Detectar modo oscuro del sistema
+    
     const isDarkMode = document.documentElement.classList.contains('dark');
     
     router.post('/empleados', form, {
       onSuccess: () => {
         setShowModal(false);
         
-        // Mostrar alerta con SweetAlert2 adaptada al tema oscuro/claro
+      
         Swal.fire({
           title: '¡Éxito!',
           text: `Empleado ${form.nombre} agregado correctamente`,
@@ -95,7 +95,7 @@ export default function CreateEmpleadoModal() {
       className="bg-white dark:bg-[#171717] rounded-lg shadow-lg w-full max-w-md p-6 relative dark:text-gray-100"
       onClick={e => e.stopPropagation()} 
     >
-      {/* Botón cerrar */}
+     
       <button
         onClick={() => setShowModal(false)}
         className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-50"
