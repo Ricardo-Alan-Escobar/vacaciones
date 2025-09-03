@@ -5,6 +5,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\EmpleadoController;
 use App\Http\Controllers\VacacionesController;
 use App\Http\Controllers\NotificacionController;
+use App\Http\Controllers\PermisosController;
 
 // Ruta pública
 Route::get('/', function () {
@@ -46,6 +47,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/notificaciones', [NotificacionController::class, 'index'])->name('notificaciones');
     Route::post('/notificaciones/{id}/leer', [NotificacionController::class, 'marcarComoLeida']);
 Route::delete('/notificaciones/{id}', [NotificacionController::class, 'eliminar']);
+
+//Permisos
+ Route::get('/permisos', [PermisosController::class, 'index'])->name('permisos');
+    Route::post('/permisos', [PermisosController::class, 'store'])->name('permisos.store');
+    Route::put('/permisos/{permiso}/estado', [PermisosController::class, 'updateEstado'])->name('permisos.updateEstado');
 });
 
 require __DIR__.'/settings.php';

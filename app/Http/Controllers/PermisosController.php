@@ -21,7 +21,7 @@ class PermisosController extends Controller
             $permisos = Permiso::where('empleado_id', $empleado->id)->get();
         }
 
-        return inertia('Permisos', [
+        return inertia('permisos', [
             'empleado' => $empleado,
             'permisos' => $permisos,
         ]);
