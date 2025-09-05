@@ -6,7 +6,7 @@ export default function Permisos() {
   const { empleado, permisos } = usePage().props;
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Filtrado por motivo
+  
   const filteredPermisos = [...permisos]
     .reverse()
     .filter((p) =>
